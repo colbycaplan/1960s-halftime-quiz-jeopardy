@@ -1,11 +1,28 @@
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0;
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #f5f5f5;
     text-align: center;
+    color: #333;
 }
 
 h1 {
-    color: #333;
+    color: #4A4A4A;
+    margin-bottom: 10px;
+}
+
+#reset-button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+#reset-button:hover {
+    background-color: #c9302c;
 }
 
 #jeopardy-board {
@@ -13,52 +30,65 @@ h1 {
     grid-template-columns: repeat(6, 1fr);
     gap: 10px;
     margin: 20px auto;
-    max-width: 1000px;
+    max-width: 1200px;
+}
+
+.category-title {
+    background-color: #060CE9;
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    text-align: center;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.question-cell {
+    background-color: #060CE9;
+    color: #FFD700;
+    padding: 20px;
+    cursor: pointer;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.question-cell:hover {
+    transform: scale(1.05);
+}
+
+.question-cell.answered {
+    background-color: #333;
+    color: #555;
+    cursor: not-allowed;
+    transform: scale(1);
 }
 
 #teams-container {
     display: flex;
     justify-content: space-around;
     margin-bottom: 20px;
+    max-width: 1200px;
+    margin: 0 auto 20px auto;
 }
 
 .team {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-
-.category-title {
-    background-color: #000080;
-    color: white;
-    padding: 10px;
-    font-weight: bold;
-    text-align: center;
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.question-cell {
-    background-color: #000080;
-    color: #FFD700; /* Gold color for the points */
-    padding: 20px;
-    cursor: pointer;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.question-cell.answered {
-    background-color: #444;
-    color: #666;
-    cursor: not-allowed;
+    padding: 15px 25px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .modal {
@@ -70,26 +100,28 @@ h1 {
     width: 100%;
     height: 100%;
     overflow: auto; 
-    background-color: rgba(0,0,0,0.4); 
+    background-color: rgba(0,0,0,0.6); 
 }
 
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; 
-    padding: 20px;
+    margin: 10% auto; 
+    padding: 30px;
     border: 1px solid #888;
     width: 80%; 
-    max-width: 600px;
+    max-width: 700px;
     text-align: center;
     position: relative;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 .close-button {
     color: #aaa;
     position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 28px;
+    top: 15px;
+    right: 25px;
+    font-size: 32px;
     font-weight: bold;
 }
 
@@ -101,29 +133,44 @@ h1 {
 }
 
 #question-text {
-    font-size: 20px;
-    margin-bottom: 20px;
+    font-size: 24px;
+    margin-bottom: 25px;
 }
 
 #reveal-answer {
-    padding: 10px 20px;
-    font-size: 16px;
+    background-color: #5bc0de;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 18px;
     cursor: pointer;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+#reveal-answer:hover {
+    background-color: #31b0d5;
 }
 
 #answer-text {
-    font-size: 18px;
-    color: #008000; /* Green for the answer */
-}
-
-#team-buttons-container {
-    margin-top: 10px;
+    font-size: 20px;
+    color: #28a745;
+    padding: 10px;
+    background-color: #e9f7ef;
+    border-radius: 5px;
 }
 
 #team-buttons-container button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
     margin: 5px;
-    padding: 10px;
-    font-size: 14px;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 14px;
+}
+
+#team-buttons-container button:hover {
+    background-color: #45a049;
 }
