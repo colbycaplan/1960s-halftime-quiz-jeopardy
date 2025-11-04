@@ -182,4 +182,16 @@ window.addEventListener('click', (event) => {
     }
 });
 
+document.getElementById('reset-button').addEventListener('click', resetGame);
+
+function resetGame() {
+    teams.forEach(team => team.score = 0);
+    renderTeams();
+
+    const cells = document.querySelectorAll('.question-cell');
+    cells.forEach(cell => {
+        cell.classList.remove('answered');
+    });
+}
+
 init();
