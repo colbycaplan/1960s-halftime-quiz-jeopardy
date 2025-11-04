@@ -3,25 +3,360 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unit 2 Quiz 1 Jeopardy</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Social Studies Jeopardy</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the game */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .question-cell {
+            transition: all 0.2s ease-in-out;
+        }
+        .question-cell.answered {
+            background-color: #4b5563; /* gray-600 */
+            color: #9ca3af; /* gray-400 */
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .question-cell.answered span {
+            visibility: hidden; /* Hide points when answered */
+        }
+        #modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+    </style>
 </head>
-<body>
-    <h1>Unit 2 Quiz 1 Jeopardy</h1>
-    <button id="reset-button">Reset Game</button>
-    <div id="teams-container"></div>
-    <div id="jeopardy-board"></div>
+<body class="bg-gray-900 text-white p-2 md:p-6">
 
-    <div id="question-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <div id="question-text"></div>
-            <button id="reveal-answer">Reveal Answer</button>
-            <div id="answer-text" style="display: none;"></div>
-            <div id="team-buttons-container"></div>
+    <header class="text-center mb-4 md:mb-8">
+        <h1 class="text-3xl md:text-5xl font-bold text-cyan-400">Social Studies Jeopardy</h1>
+    </header>
+
+    <!-- Score Area -->
+    <div id="score-area" class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 mb-4 md:mb-8 max-w-4xl mx-auto">
+        <div class="bg-gray-700 p-3 md:p-4 rounded-lg shadow-lg text-center">
+            <h2 class="text-base md:text-lg font-semibold text-red-400">Player 1</h2>
+            <span id="p1-score" class="text-3xl md:text-4xl font-bold">0</span>
+        </div>
+        <div class="bg-gray-700 p-3 md:p-4 rounded-lg shadow-lg text-center">
+            <h2 class="text-base md:text-lg font-semibold text-green-400">Player 2</h2>
+            <span id="p2-score" class="text-3xl md:text-4xl font-bold">0</span>
+        </div>
+        <div class="bg-gray-700 p-3 md:p-4 rounded-lg shadow-lg text-center">
+            <h2 class="text-base md:text-lg font-semibold text-yellow-400">Player 3</h2>
+            <span id="p3-score" class="text-3xl md:text-4xl font-bold">0</span>
+        </div>
+        <div class="bg-gray-700 p-3 md:p-4 rounded-lg shadow-lg text-center">
+            <h2 class="text-base md:text-lg font-semibold text-purple-400">Player 4</h2>
+            <span id="p4-score" class="text-3xl md:text-4xl font-bold">0</span>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Game Board -->
+    <div id="game-board" class="grid grid-cols-6 gap-1 md:gap-2 max-w-screen-xl mx-auto">
+        <!-- Category Headers -->
+        <div class="bg-blue-800 text-xs md:text-base font-bold p-2 rounded-t-lg text-center h-20 flex items-center justify-center">Postwar Boom &amp; 'American Dream'</div>
+        <div class="bg-blue-800 text-xs md:text-base font-bold p-2 rounded-t-lg text-center h-20 flex items-center justify-center">Cold War Fear &amp; Conformity</div>
+        <div class="bg-blue-800 text-xs md:text-base font-bold p-2 rounded-t-lg text-center h-20 flex items-center justify-center">Family Life &amp; Culture</div>
+        <div class="bg-blue-800 text-xs md:text-base font-bold p-2 rounded-t-lg text-center h-20 flex items-center justify-center">Shifting the Dream</div>
+        <div class="bg-blue-800 text-xs md:text-base font-bold p-2 rounded-t-lg text-center h-20 flex items-center justify-center">LBJ &amp; The Great Society</div>
+        <div class="bg-blue-800 text-xs md:text-base font-bold p-2 rounded-t-lg text-center h-20 flex items-center justify-center">Great Society Programs</div>
+
+        <!-- Row 1 (10 Points) -->
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="Which factor most contributed to the suburban housing boom of the 1950s?"
+             data-answer="The GI Bill, FHA loans, and the desire for mass prosperity for the White middle class.">
+            <span>10</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="What was Senator Joseph McCarthy best known for during the early 1950s?"
+             data-answer="Leading a campaign of accusations against suspected communists in the U.S. government and other institutions, a period that became known as McCarthyism.">
+            <span>10</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="The ideal “nuclear family” of the 1950s emphasized what social pattern?"
+             data-answer="A father as the provider and a mother as the homemaker.">
+            <span>10</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="What did the Supreme Court’s Brown v. Board of Education decision declare unconstitutional?"
+             data-answer="Racial segregation in public schools.">
+            <span>10</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="What was the main goal of Lyndon B. Johnson’s “Great Society” programs?"
+             data-answer="To create a 'fairer, healthier, and more educated nation' by addressing issues of poverty, racial injustice, and education.">
+            <span>10</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="Which Great Society law provided federal funding to improve K–12 education?"
+             data-answer="The Elementary & Secondary Education Act (1965).">
+            <span>10</span>
+        </div>
+
+        <!-- Row 2 (20 Points) -->
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="What did the GI Bill primarily provide for returning World War II veterans?"
+             data-answer="Benefits for returning World War II veterans (known as G.I.s). It included provisions for education and training, loans for homes, farms, or businesses, and unemployment compensation.">
+            <span>20</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="What did Eisenhower mean by warning against the “military-industrial complex”?"
+             data-answer="He was warning about the immense influence that the defense industry and the military could have on government policy.">
+            <span>20</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="What role did television play in shaping American culture during the 1950s?"
+             data-answer="It reinforced conformity and broadcasted national shows to a rapidly growing audience.">
+            <span>20</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="What event sparked the Montgomery Bus Boycott in 1955?"
+             data-answer="Rosa Parks’ refusal to give up her seat to a white man on a segregated bus.">
+            <span>20</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="Johnson’s 'War on Poverty' aimed to address what problem?"
+             data-answer="Poverty and economic inequality in the United States.">
+            <span>20</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="What was the main purpose of Medicare and Medicaid?"
+             data-answer="To provide health insurance for the elderly (Medicare) and the poor (Medicaid).">
+            <span>20</span>
+        </div>
+
+        <!-- Row 3 (30 Points) -->
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="Levittown symbolized which feature of postwar American life?"
+             data-answer="Suburbanization and mass prosperity for the White middle class, but also racial exclusion.">
+            <span>30</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="The policy of “massive retaliation” was based on what idea?"
+             data-answer="The idea of using nuclear deterrence to counter conventional military threats.">
+            <span>30</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="What did the term “organization man” describe?"
+             data-answer="The conformity and loyalty to the corporation that was expected of white-collar workers.">
+            <span>30</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="What was President Kennedy’s “New Frontier” designed to encourage?"
+             data-answer="A sense of energy, youth, challenge, and service, and to inspire Americans to work for progress.">
+            <span>30</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="How did LBJ link his Great Society vision to the Civil Rights Movement?"
+             data-answer="He argued that the fight for civil rights was a moral imperative and a key part of achieving the Great Society.">
+            <span>30</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="What did the Civil Rights Act of 1964 accomplish?"
+             data-answer="It ended segregation in public places and banned employment discrimination on the basis of race, color, religion, sex or national origin.">
+            <span>30</span>
+        </div>
+
+        <!-- Row 4 (40 Points) -->
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="The Interstate Highway Act of 1956 most directly encouraged what change?"
+             data-answer="The growth of car culture, commuting, and changed American lifestyles.">
+            <span>40</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="What was the main U.S. response to the Soviet Union’s launch of Sputnik in 1957?"
+             data-answer="Increased funding for science and math education and the creation of NASA, sparking the 'space race'.">
+            <span>40</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="What was one result of the baby boom that began after World War II?"
+             data-answer="A massive increase in the U.S. population and a surge in demand for housing, consumer goods, and schools.">
+            <span>40</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="How did Kennedy’s assassination in 1963 affect the national mood?"
+             data-answer="It led to a national sense of loss, an end of innocence, and a transition to activism.">
+            <span>40</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="Which earlier president’s New Deal was most similar in spirit to the Great Society?"
+             data-answer="Franklin D. Roosevelt’s New Deal.">
+            <span>40</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="Which Great Society law provided food assistance to low-income families?"
+             data-answer="The Food Stamp Act (1964).">
+            <span>40</span>
+        </div>
+
+        <!-- Row 5 (50 Points) -->
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="Which group was largely excluded from the benefits of 1950s homeownership programs?"
+             data-answer="African Americans and other minorities due to racial exclusion.">
+            <span>50</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="Which government committee investigated suspected Communist influence in Hollywood?"
+             data-answer="The House Un-American Activities Committee (HUAC).">
+            <span>50</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="How did gender roles change for women from World War II to the 1950s?"
+             data-answer="Many women who had worked in factories during the war returned to more traditional domestic roles in the 1950s.">
+            <span>50</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="The phrase “When the 1950s Died” refers primarily to which historical shift?"
+             data-answer="The transition from the conformity and prosperity of the 1950s to the social and political turmoil of the 1960s.">
+            <span>50</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="What major event most undermined funding and public support for Johnson’s Great Society programs?"
+             data-answer="The Vietnam War.">
+            <span>50</span>
+        </div>
+        <div class="question-cell bg-blue-600 hover:bg-blue-500 cursor-pointer h-20 flex items-center justify-center text-xl md:text-2xl font-bold rounded-lg shadow-md"
+             data-question="What agency was created to coordinate housing and urban development programs?"
+             data-answer="The Department of Housing and Urban Development (HUD).">
+            <span>50</span>
+        </div>
+    </div>
+
+    <!-- Reset Button -->
+    <div class="text-center mt-6 md:mt-8">
+        <button id="reset-game" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg shadow-md">
+            Reset Game
+        </button>
+    </div>
+
+    <!-- Modal for Question/Answer -->
+    <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center hidden p-4 z-50">
+        <div id="question-modal" class="bg-white text-gray-900 p-6 md:p-8 rounded-lg shadow-xl w-full max-w-2xl text-center">
+            <p class="text-lg md:text-2xl font-semibold mb-6" id="modal-question">Question text goes here</p>
+
+            <button id="show-answer" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-lg mb-4">
+                Show Answer
+            </button>
+
+            <p id="modal-answer" class="text-lg md:text-2xl font-bold text-blue-700 mb-6 hidden">Answer text goes here</p>
+
+            <div id="award-points-wrapper" class="hidden">
+                <h3 class="text-md md:text-lg font-semibold mb-2">Award points to:</h3>
+                <div id="award-points" class="flex flex-wrap justify-center gap-2">
+                    <button data-player="p1" class="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg">Player 1</button>
+                    <button data-player="p2" class="bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-lg">Player 2</button>
+                    <button data-player="p3" class="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg">Player 3</button>
+                    <button data-player="p4" class="bg-purple-400 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded-lg">Player 4</button>
+                </div>
+            </div>
+
+            <button id="close-modal" class="mt-6 bg-gray-400 hover:bg-gray-500 text-gray-800 font-bold py-2 px-4 rounded-lg">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Game State
+            let scores = { p1: 0, p2: 0, p3: 0, p4: 0 };
+            let currentQuestionCell = null;
+            let currentPoints = 0;
+
+            // DOM Elements
+            const scoreSpans = {
+                p1: document.getElementById('p1-score'),
+                p2: document.getElementById('p2-score'),
+                p3: document.getElementById('p3-score'),
+                p4: document.getElementById('p4-score')
+            };
+            const gameBoard = document.getElementById('game-board');
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalQuestion = document.getElementById('modal-question');
+            const showAnswerButton = document.getElementById('show-answer');
+            const modalAnswer = document.getElementById('modal-answer');
+            const awardPointsWrapper = document.getElementById('award-points-wrapper');
+            const awardPointsDiv = document.getElementById('award-points');
+            const closeModalButton = document.getElementById('close-modal');
+            const resetButton = document.getElementById('reset-game');
+
+            // --- Event Listeners ---
+
+            // Handle clicking on a question cell
+            gameBoard.addEventListener('click', (e) => {
+                const cell = e.target.closest('.question-cell');
+
+                if (cell && !cell.classList.contains('answered')) {
+                    currentQuestionCell = cell;
+                    currentPoints = parseInt(cell.querySelector('span').textContent);
+
+                    // Populate and show modal
+                    modalQuestion.textContent = cell.dataset.question;
+                    modalAnswer.textContent = cell.dataset.answer;
+
+                    // Reset modal state
+                    modalAnswer.classList.add('hidden');
+                    awardPointsWrapper.classList.add('hidden');
+                    showAnswerButton.classList.remove('hidden');
+
+                    modalOverlay.classList.remove('hidden');
+                }
+            });
+
+            // Show the answer
+            showAnswerButton.addEventListener('click', () => {
+                modalAnswer.classList.remove('hidden');
+                awardPointsWrapper.classList.remove('hidden');
+                showAnswerButton.classList.add('hidden');
+            });
+
+            // Award points to a player
+            awardPointsDiv.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    const player = e.target.dataset.player;
+                    if (player) {
+                        scores[player] += currentPoints;
+                        updateScoreboard();
+                        closeModal();
+                    }
+                }
+            });
+
+            // Close the modal (e.g., if no one gets it right)
+            closeModalButton.addEventListener('click', () => {
+                closeModal();
+            });
+
+            // Reset Game
+            resetButton.addEventListener('click', () => {
+                // A simple and effective way to reset the game state
+                window.location.reload();
+            });
+
+            // --- Helper Functions ---
+
+            function updateScoreboard() {
+                for (const player in scores) {
+                    scoreSpans[player].textContent = scores[player];
+                }
+            }
+
+            function closeModal() {
+                modalOverlay.classList.add('hidden');
+
+                // Mark question as answered
+                if (currentQuestionCell && !currentQuestionCell.classList.contains('answered')) {
+                    currentQuestionCell.classList.add('answered');
+                }
+
+                // Reset temps
+                currentQuestionCell = null;
+                currentPoints = 0;
+            }
+        });
+    </script>
 </body>
 </html>
